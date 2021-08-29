@@ -1,14 +1,24 @@
 import Joi from "joi";
 
 const RoomPostValidator = Joi.object({
-  name: Joi.string().max(20).required(),
   password: Joi.string().pattern(
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
   ),
-  is_public: Joi.boolean(),
-  owner: Joi.string()
-    .pattern(/[a-zA-Z0-9!@#$%^&*]{6,16}$/)
+  roomId: Joi.string()
+    .pattern(/[\-a-zA-Z0-9!@#$%^&*]{6,16}$/)
     .required(),
 });
 
-export { RoomPostValidator };
+const RoomPutValidator = Joi.object({
+  current_password: Joi.string().pattern(
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+  ),
+  new_password: Joi.string().pattern(
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+  ),
+  new_roomId: Joi.string()
+    .pattern(/[\-a-zA-Z0-9!@#$%^&*]{6,16}$/)
+    .required(),
+});
+
+export { RoomPostValidator, RoomPutValidator };

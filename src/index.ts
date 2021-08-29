@@ -1,10 +1,12 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import apiRouter from "./routes/index";
-import dotenv from "dotenv";
 import initDB from "./core/db";
 import bodyParser from "body-parser";
+import path from "path";
 
-dotenv.config();
 const app = express();
 
 // Middlewares
@@ -18,7 +20,6 @@ app.get("/ping", (req, res) => {
 });
 
 const PORT = Number(process.env.PORT) || 8080;
-
 app.listen(PORT, () => {
   initDB((error) => {
     if (!error) {

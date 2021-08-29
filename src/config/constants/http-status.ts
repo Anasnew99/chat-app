@@ -22,4 +22,23 @@ const POST_SUCCESS = {
   m_code: "http-suc-1",
 };
 
-export { DATA_VALIDATION_ERROR, SERVER_ERROR, POST_SUCCESS, HTTP_Status };
+const PUT_SUCCESS = {
+  code: 200,
+  msg: "Updated",
+  m_code: "http-suc-2",
+};
+
+const ACCESS_ERROR = {
+  code: 403,
+  msg: "Don't have access to this resource",
+  m_code: "http-err-3",
+};
+
+export {
+  DATA_VALIDATION_ERROR,
+  SERVER_ERROR,
+  POST_SUCCESS,
+  ACCESS_ERROR,
+  PUT_SUCCESS,
+  HTTP_Status,
+};

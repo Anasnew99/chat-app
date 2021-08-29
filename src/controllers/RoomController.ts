@@ -1,29 +1,19 @@
 import { Document, Schema, model } from "mongoose";
 
 interface IRoom {
-  name: string;
-  owner: string;
+  roomId: string;
   password?: string;
-  is_public?: boolean;
 }
 
 const RoomSchema = new Schema<IRoom>({
-  name: {
+  roomId: {
     required: true,
-    type: String,
-  },
-  owner: {
-    required: true,
+    unique: true,
     type: String,
   },
   password: {
     required: false,
     type: String,
-  },
-  is_public: {
-    required: false,
-    type: Boolean,
-    default: true,
   },
 });
 

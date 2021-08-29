@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "ts": "tsc -p tsconfig.json",
-    "server": "nodemon dist/index.js",
-    "dev": "concurrently --kill-others \"npm run ts\" \"npm run server\" --names \"typescript,server\" -c \"yellow,green\" ",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec ts-node src/index.ts --watch src/**/*.ts",
     "test": "mocha -r ts-node/register 'tests/**/*.ts'",
     "lint": "tslint -p tsconfig.json --config tslint.json --exclude '**/*.d.ts' --exclude 'frontend/**'"
   },
