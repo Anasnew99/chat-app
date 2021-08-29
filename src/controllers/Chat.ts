@@ -1,14 +1,20 @@
 import { Document, Schema, model } from "mongoose";
 
 interface IChat {
-  pr_id: string;
+  r_id: string;
+  p_id: string;
   message: string;
 }
 
 const ChatSchema = new Schema<IChat>({
-  pr_id: {
+  p_id: {
     required: true,
-    ref: "PRoom",
+    ref: "Participant",
+    type: Schema.Types.ObjectId,
+  },
+  r_id: {
+    required: true,
+    ref: "Room",
     type: Schema.Types.ObjectId,
   },
   message: {

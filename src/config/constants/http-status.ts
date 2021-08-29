@@ -28,6 +28,12 @@ const PUT_SUCCESS = {
   m_code: "http-suc-2",
 };
 
+const DELETE_SUCCESS = {
+  code: 200,
+  msg: "Deleted",
+  m_code: "http-suc-3",
+};
+
 const ACCESS_ERROR = {
   code: 403,
   msg: "Don't have access to this resource",
@@ -40,5 +46,6 @@ export {
   POST_SUCCESS,
   ACCESS_ERROR,
   PUT_SUCCESS,
+  DELETE_SUCCESS,
   HTTP_Status,
 };

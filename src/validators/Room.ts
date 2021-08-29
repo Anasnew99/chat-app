@@ -1,24 +1,19 @@
 import Joi from "joi";
+import { idValidator, passwordValidator } from "./GeneralValidators";
 
 const RoomPostValidator = Joi.object({
-  password: Joi.string().pattern(
-    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-  ),
-  roomId: Joi.string()
-    .pattern(/[\-a-zA-Z0-9!@#$%^&*]{6,16}$/)
-    .required(),
+  password: passwordValidator,
+  roomId: idValidator,
 });
 
 const RoomPutValidator = Joi.object({
-  current_password: Joi.string().pattern(
-    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-  ),
-  new_password: Joi.string().pattern(
-    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-  ),
-  new_roomId: Joi.string()
-    .pattern(/[\-a-zA-Z0-9!@#$%^&*]{6,16}$/)
-    .required(),
+  current_password: passwordValidator,
+  new_password: passwordValidator,
+  new_roomId: idValidator,
 });
 
-export { RoomPostValidator, RoomPutValidator };
+const RoomDeleteValidator = Joi.object({
+  password: passwordValidator,
+});
+
+export { RoomPostValidator, RoomPutValidator, RoomDeleteValidator };

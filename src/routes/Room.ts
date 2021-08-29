@@ -5,10 +5,15 @@ import {
   SERVER_ERROR,
   ACCESS_ERROR,
   PUT_SUCCESS,
+  DELETE_SUCCESS,
 } from "../config/constants";
 import { IRoom, Room } from "../controllers/RoomController";
 import { sendResponse } from "../utils";
-import { RoomPostValidator, RoomPutValidator } from "../validators/Room";
+import {
+  RoomDeleteValidator,
+  RoomPostValidator,
+  RoomPutValidator,
+} from "../validators/Room";
 
 const roomRouter = express.Router();
 
@@ -79,6 +84,28 @@ roomRouter
       }
     }
   )
-  .delete((req, res) => {});
+  .delete(async (req: Request<RoomParams, {}, { password?: string }>, res) => {
+    const id = req.params.id;
+    const { error } = RoomDeleteValidator.validate(req.body);
+    if (error) {
+      return sendResponse(res, DATA_VALIDATION_ERROR);
+    }
+    const { password } = req.body;
+    try {
+      const data = await Room.findById(id);
+      if (data.password) {
+        if (data.password === password) {
+          await data.deleteOne();
+        } else {
+          throw ACCESS_ERROR;
+        }
+      } else {
+        await data.deleteOne();
+      }
+      return sendResponse(res, DELETE_SUCCESS);
+    } catch (error) {
+      return sendResponse(res, error);
+    }
+  });
 
 export default roomRouter;
