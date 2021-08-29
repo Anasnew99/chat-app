@@ -65,7 +65,7 @@ participantRouter
           if (participant.password === current_password) {
             await participant.updateOne({
               password: new_password,
-              roomId: new_participantId,
+              participantId: new_participantId,
             });
           } else {
             throw ACCESS_ERROR;
@@ -76,7 +76,7 @@ participantRouter
           } else {
             await participant.updateOne({
               password: new_password,
-              roomId: new_participantId,
+              participantId: new_participantId,
             });
           }
         }
@@ -96,6 +96,7 @@ participantRouter
       const { password } = req.body;
       try {
         const data = await Participant.findById(id);
+
         if (data.password) {
           if (data.password === password) {
             await data.deleteOne();
@@ -107,6 +108,7 @@ participantRouter
         }
         return sendResponse(res, DELETE_SUCCESS);
       } catch (error) {
+        console.log(error);
         return sendResponse(res, error);
       }
     }

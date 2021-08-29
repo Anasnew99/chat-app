@@ -2,7 +2,7 @@ import { Document, Schema, model } from "mongoose";
 
 interface IPRoom {
   r_id: string;
-  p_id?: string;
+  p_id: string;
 }
 
 const PRoomSchema = new Schema<IPRoom>({

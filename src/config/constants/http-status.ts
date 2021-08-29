@@ -40,6 +40,18 @@ const ACCESS_ERROR = {
   m_code: "http-err-3",
 };
 
+const DUPLICATE_ERROR = {
+  code: 409,
+  msg: "Resource already exist",
+  m_code: "http-err-4",
+};
+
+const NOT_EXIST_ERROR = {
+  code: 404,
+  msg: "Resource not exist",
+  m_code: "http-err-5",
+};
+
 export {
   DATA_VALIDATION_ERROR,
   SERVER_ERROR,
@@ -47,5 +59,7 @@ export {
   ACCESS_ERROR,
   PUT_SUCCESS,
   DELETE_SUCCESS,
+  DUPLICATE_ERROR,
+  NOT_EXIST_ERROR,
   HTTP_Status,
 };
