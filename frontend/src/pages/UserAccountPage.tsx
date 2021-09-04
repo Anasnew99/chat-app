@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-interface LandingPageProps {}
+interface UserAccountPageProps {}
 
-const LandingPage: FC<LandingPageProps> = (props) => {
+const UserAccountPage: FC<UserAccountPageProps> = (props) => {
   const history = useHistory();
 
   const [roomId, setRoomId] = useState<undefined | string>("");
@@ -15,4 +15,4 @@ const LandingPage: FC<LandingPageProps> = (props) => {
   );
 };
 
-export default LandingPage;
+export default UserAccountPage;

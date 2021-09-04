@@ -1,4 +1,4 @@
-import express, { Request } from "express";
+import express, { Request, Response } from "express";
 import {
   ACCESS_ERROR,
   DATA_VALIDATION_ERROR,
@@ -9,6 +9,7 @@ import {
 } from "../config/constants";
 import { IParticipant, Participant } from "../controllers/Participant";
 import { sendResponse } from "../utils";
+import { ITokenData } from "../utils/authUtils";
 import {
   ParticipantDeleteValidator,
   ParticipantPostValidator,
@@ -16,29 +17,12 @@ import {
 } from "../validators/Participant";
 const participantRouter = express.Router();
 
-participantRouter.post("/", (req: Request<{}, {}, IParticipant>, res) => {
-  const { error } = ParticipantPostValidator.validate(req.body);
-  if (error) {
-    return sendResponse(res, DATA_VALIDATION_ERROR);
-  }
-  const values = req.body;
-  const newParticipant = new Participant(values);
-  newParticipant
-    .save()
-    .then(() => {
-      return sendResponse(res, POST_SUCCESS);
-    })
-    .catch(() => {
-      return sendResponse(res, SERVER_ERROR);
-    });
-});
-
 interface ParticipantParams {
   id: string;
 }
 
 participantRouter
-  .route("/:id")
+  .route("/")
   .get((req: Request<ParticipantParams, {}, { password?: string }>, res) => {})
   .put(
     async (
@@ -51,7 +35,7 @@ participantRouter
           current_password?: string;
         }
       >,
-      res
+      res: Response<{}, { claims: ITokenData }>
     ) => {
       const { error } = ParticipantPutValidator.validate(req.body);
       if (error) {
@@ -59,7 +43,7 @@ participantRouter
       }
       try {
         const { current_password, new_password, new_participantId } = req.body;
-        const id = req.params.id;
+        const id = res.locals.claims.id;
         const participant = await Participant.findById(id);
         if (current_password) {
           if (participant.password === current_password) {
@@ -88,7 +72,7 @@ participantRouter
   )
   .delete(
     async (req: Request<ParticipantParams, {}, { password?: string }>, res) => {
-      const id = req.params.id;
+      const id = res.locals.claims.id;
       const { error } = ParticipantDeleteValidator.validate(req.body);
       if (error) {
         return sendResponse(res, DATA_VALIDATION_ERROR);
@@ -96,16 +80,18 @@ participantRouter
       const { password } = req.body;
       try {
         const data = await Participant.findById(id);
-
-        if (data.password) {
-          if (data.password === password) {
-            await data.deleteOne();
+        if (data) {
+          if (data.password) {
+            if (data.password === password) {
+              await data.deleteOne();
+            } else {
+              throw ACCESS_ERROR;
+            }
           } else {
-            throw ACCESS_ERROR;
+            await data.deleteOne();
           }
-        } else {
-          await data.deleteOne();
         }
+
         return sendResponse(res, DELETE_SUCCESS);
       } catch (error) {
         console.log(error);

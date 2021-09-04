@@ -7,8 +7,11 @@ import Container from "./layout/Container";
 import { themeObject } from "./config/themes";
 import Footer from "./layout/Footer";
 import LandingPage from "./pages/LandingPage";
-import ChatPage from "./pages/ChatPage";
 import NotFoundPage from "./pages/404Page";
+import CreateRoom from "./pages/CreateRoom";
+import RoomPage from "./pages/Room";
+import UserAccountPage from "./pages/UserAccountPage";
+import UserPage from "./pages/UserPage";
 const Layout = styled.div``;
 
 function App() {
@@ -25,9 +28,15 @@ function App() {
         <Router>
           <Container>
             <Switch>
-              <Route path={"/chat/:id"} component={ChatPage} />
-              <Route path={"/"} component={LandingPage} />
-
+              <Route exact path={"/"} component={LandingPage} />
+              {/* Create a Room */}
+              <Route exact path={"/create"} component={CreateRoom} />
+              {/* Join Room and Chat */}
+              <Route exact path={`/room/:id`} component={RoomPage} />
+              {/* Create User and Log User IN */}
+              <Route exact path={"/user"} component={UserAccountPage} />
+              {/* See User Details */}
+              <Route exact path={"/user/:id"} component={UserPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </Container>

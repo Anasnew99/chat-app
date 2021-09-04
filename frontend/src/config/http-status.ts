@@ -1,8 +1,7 @@
-interface HTTP_Status {
+export interface HTTP_Status {
   code: number;
   msg: string;
   m_code: string;
-  data?: any;
 }
 
 const DATA_VALIDATION_ERROR = {
@@ -47,12 +46,6 @@ const DUPLICATE_ERROR = {
   m_code: "http-err-4",
 };
 
-const AUTH_ERROR = {
-  code: 401,
-  msg: "Unauthorized",
-  m_code: "http-err-6",
-};
-
 const NOT_EXIST_ERROR = {
   code: 404,
   msg: "Resource not exist",
@@ -68,6 +61,4 @@ export {
   DELETE_SUCCESS,
   DUPLICATE_ERROR,
   NOT_EXIST_ERROR,
-  AUTH_ERROR,
-  HTTP_Status,
 };
